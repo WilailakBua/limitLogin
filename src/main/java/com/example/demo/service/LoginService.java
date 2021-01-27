@@ -44,7 +44,9 @@ public class LoginService {
 				
 			    login = Optional.ofNullable(this.loginRepository.getUser(loginDto)
 						.orElseThrow(() -> new NotFoundException(ErrorCode.ERR_NOT_FOUND.code, "Password incorrect")));
-			    
+			    if(dataByUser.get().getCount() == 3) {
+			    	throw new NotFoundException("User Lock");
+			    }
 			    if(dataByUser.get().getCount() > 0 || dataByUser.get().getCount() < 3) {
 			    	countFalse = calCount("success",count);
 					dataByUser.get().setCount(countFalse);
